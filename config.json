@@ -1,0 +1,13 @@
+﻿{
+    "connectionString": "mongodb://localhost/randomArray",
+    "secret": "thisIsMySecretCode",
+    "emailFrom": "info@test.com",
+    "smtpOptions": {
+        "host": "smtp.ethereal.email",
+        "port": 587,
+        "auth": {
+            "user": "barry26@ethereal.email",
+            "pass": "pCQU4RG1m2SjTjRTNB"
+        }
+    }
+}

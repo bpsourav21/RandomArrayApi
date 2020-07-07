@@ -6,6 +6,10 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const errorHandler = require("middleware/error-handler");
 
+// controller
+const authController = require("endpoints/auth/auth.controller");
+const accountsController = require("endpoints/accounts/accounts.controller");
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -19,8 +23,8 @@ app.use(
 );
 
 // api routes
-app.use("/auth", require("endpoints/auth/auth.controller"));
-app.use("/accounts", require("endpoints/accounts/accounts.controller"));
+app.use("/auth", authController);
+app.use("/accounts", accountsController);
 
 // swagger docs route
 app.use("/api-docs", require("helpers/swagger"));

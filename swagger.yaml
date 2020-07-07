@@ -9,10 +9,12 @@ servers:
     description: Local development server
 
 paths:
-  /accounts/authenticate:
+  /auth/authenticate:
     post:
       summary: Authenticate account credentials and return a JWT token and a cookie with a refresh token
       description: Accounts must be verified before authenticating.
+      tags: 
+        - Auth
       operationId: authenticate
       requestBody:
         required: true
@@ -47,18 +49,15 @@ paths:
                   id:
                     type: string
                     example: "5eb12e197e06a76ccdefc121"
-                  title:
-                    type: string
-                    example: "Mr"
-                  firstName:
+                  name:
                     type: string
                     example: "Jason"
-                  lastName:
-                    type: string
-                    example: "Watmore"
                   email:
                     type: string
                     example: "jason@example.com"
+                  phone:
+                    type: string
+                    example: "+8801671820025"
                   role:
                     type: string
                     example: "Admin"
@@ -81,10 +80,12 @@ paths:
                   message:
                     type: string
                     example: "Email or password is incorrect"
-  /accounts/refresh-token:
+  /auth/refresh-token:
     post:
       summary: Use a refresh token to generate a new JWT token and a new refresh token
       description: The refresh token is sent and returned via cookies.
+      tags: 
+        - Auth
       operationId: refreshToken
       parameters:
         - in: cookie
@@ -110,18 +111,15 @@ paths:
                   id:
                     type: string
                     example: "5eb12e197e06a76ccdefc121"
-                  title:
-                    type: string
-                    example: "Mr"
-                  firstName:
+                  name:
                     type: string
                     example: "Jason"
-                  lastName:
-                    type: string
-                    example: "Watmore"
                   email:
                     type: string
                     example: "jason@example.com"
+                  phone:
+                    type: string
+                    example: "+8801671820025"
                   role:
                     type: string
                     example: "Admin"
@@ -144,10 +142,12 @@ paths:
                   message:
                     type: string
                     example: "Invalid token"
-  /accounts/revoke-token:
+  /auth/revoke-token:
     post:
       summary: Revoke a refresh token
       description: Admin users can revoke the tokens of any account, regular users can only revoke their own tokens.
+      tags: 
+        - Auth
       operationId: revokeToken
       security:
         - bearerAuth: []
@@ -190,10 +190,12 @@ paths:
                     example: "Invalid token"
         "401":
           $ref: "#/components/responses/UnauthorizedError"
-  /accounts/register:
+  /auth/register:
     post:
       summary: Register a new user account and send a verification email
       description: The first account registered in the system is assigned the `Admin` role, other accounts are assigned the `User` role.
+      tags: 
+        - Auth
       operationId: register
       requestBody:
         required: true
@@ -202,18 +204,15 @@ paths:
             schema:
               type: object
               properties:
-                title:
-                  type: string
-                  example: "Mr"
-                firstName:
+                name:
                   type: string
                   example: "Jason"
-                lastName:
-                  type: string
-                  example: "Watmore"
                 email:
                   type: string
                   example: "jason@example.com"
+                phone:
+                  type: string
+                  example: "+8801671820025"
                 password:
                   type: string
                   example: "pass123"
@@ -223,10 +222,9 @@ paths:
                 acceptTerms:
                   type: boolean
               required:
-                - title
-                - firstName
-                - lastName
+                - name
                 - email
+                - phone
                 - password
                 - confirmPassword
                 - acceptTerms
@@ -241,9 +239,11 @@ paths:
                   message:
                     type: string
                     example: "Registration successful, please check your email for verification instructions"
-  /accounts/verify-email:
+  /auth/verify-email:
     post:
       summary: Verify a new account with a verification token received by email after registration
+      tags: 
+        - Auth
       operationId: verifyEmail
       requestBody:
         required: true
@@ -278,9 +278,11 @@ paths:
                   message:
                     type: string
                     example: "Verification failed"
-  /accounts/forgot-password:
+  /auth/forgot-password:
     post:
       summary: Submit email address to reset the password on an account
+      tags: 
+        - Auth
       operationId: forgotPassword
       requestBody:
         required: true
@@ -305,9 +307,11 @@ paths:
                   message:
                     type: string
                     example: "Please check your email for password reset instructions"
-  /accounts/validate-reset-token:
+  /auth/validate-reset-token:
     post:
       summary: Validate the reset password token received by email after submitting to the /accounts/forgot-password route
+      tags: 
+        - Auth
       operationId: validateResetToken
       requestBody:
         required: true
@@ -342,9 +346,11 @@ paths:
                   message:
                     type: string
                     example: "Invalid token"
-  /accounts/reset-password:
+  /auth/reset-password:
     post:
       summary: Reset the password for an account
+      tags: 
+        - Auth
       operationId: resetPassword
       requestBody:
         required: true
@@ -391,6 +397,8 @@ paths:
     get:
       summary: Get a list of all accounts
       description: Restricted to admin users.
+      tags: 
+        - Account
       operationId: getAllAccounts
       security:
         - bearerAuth: []
@@ -407,21 +415,18 @@ paths:
                     id:
                       type: string
                       example: "5eb12e197e06a76ccdefc121"
-                    title:
-                      type: string
-                      example: "Mr"
-                    firstName:
+                    name:
                       type: string
                       example: "Jason"
-                    lastName:
-                      type: string
-                      example: "Watmore"
                     email:
                       type: string
                       example: "jason@example.com"
+                    phone:
+                      type: string
+                      example: "+8801671820025"
                     role:
                       type: string
-                      example: "Admin"
+                      example: "User"
                     created:
                       type: string
                       example: "2020-05-05T09:12:57.848Z"
@@ -433,6 +438,8 @@ paths:
     post:
       summary: Create a new account
       description: Restricted to admin users.
+      tags: 
+        - Account
       operationId: createAccount
       security:
         - bearerAuth: []
@@ -443,18 +450,15 @@ paths:
             schema:
               type: object
               properties:
-                title:
-                  type: string
-                  example: "Mr"
-                firstName:
+                name:
                   type: string
                   example: "Jason"
-                lastName:
-                  type: string
-                  example: "Watmore"
                 email:
                   type: string
                   example: "jason@example.com"
+                phone:
+                  type: string
+                  example: "+8801671820025"
                 password:
                   type: string
                   example: "pass123"
@@ -465,10 +469,9 @@ paths:
                   type: string
                   enum: [Admin, User]
               required:
-                - title
-                - firstName
-                - lastName
+                - name
                 - email
+                - phone
                 - password
                 - confirmPassword
                 - role
@@ -483,18 +486,15 @@ paths:
                   id:
                     type: string
                     example: "5eb12e197e06a76ccdefc121"
-                  title:
-                    type: string
-                    example: "Mr"
-                  firstName:
-                    type: string
-                    example: "Jason"
-                  lastName:
-                    type: string
-                    example: "Watmore"
+                  name:
+                      type: string
+                      example: "Jason"
                   email:
                     type: string
                     example: "jason@example.com"
+                  phone:
+                    type: string
+                    example: "+8801671820025"
                   role:
                     type: string
                     example: "Admin"
@@ -525,6 +525,8 @@ paths:
     get:
       summary: Get a single account by id
       description: Admin users can access any account, regular users are restricted to their own account.
+      tags: 
+        - Account
       operationId: getAccountById
       security:
         - bearerAuth: []
@@ -539,18 +541,15 @@ paths:
                   id:
                     type: string
                     example: "5eb12e197e06a76ccdefc121"
-                  title:
-                    type: string
-                    example: "Mr"
-                  firstName:
+                  name:
                     type: string
                     example: "Jason"
-                  lastName:
-                    type: string
-                    example: "Watmore"
                   email:
                     type: string
                     example: "jason@example.com"
+                  phone:
+                    type: string
+                    example: "+8801671820025"
                   role:
                     type: string
                     example: "Admin"
@@ -567,6 +566,8 @@ paths:
     put:
       summary: Update an account
       description: Admin users can update any account including role, regular users are restricted to their own account and cannot update role.
+      tags: 
+        - Account
       operationId: updateAccount
       security:
         - bearerAuth: []
@@ -577,18 +578,15 @@ paths:
             schema:
               type: object
               properties:
-                title:
-                  type: string
-                  example: "Mr"
-                firstName:
+                name:
                   type: string
                   example: "Jason"
-                lastName:
-                  type: string
-                  example: "Watmore"
                 email:
                   type: string
                   example: "jason@example.com"
+                phone:
+                  type: string
+                  example: "+8801671820025"
                 password:
                   type: string
                   example: "pass123"
@@ -609,18 +607,15 @@ paths:
                   id:
                     type: string
                     example: "5eb12e197e06a76ccdefc121"
-                  title:
-                    type: string
-                    example: "Mr"
-                  firstName:
+                  name:
                     type: string
                     example: "Jason"
-                  lastName:
-                    type: string
-                    example: "Watmore"
                   email:
                     type: string
                     example: "jason@example.com"
+                  phone:
+                    type: string
+                    example: "+8801671820025"
                   role:
                     type: string
                     example: "Admin"
@@ -637,6 +632,8 @@ paths:
     delete:
       summary: Delete an account
       description: Admin users can delete any account, regular users are restricted to their own account.
+      tags: 
+        - Account
       operationId: deleteAccount
       security:
         - bearerAuth: []
@@ -675,6 +672,8 @@ components:
                 example: "Unauthorized"
     NotFoundError:
       description: Not Found
+      tags: 
+        - NotFoundError
       content:
         application/json:
           schema:

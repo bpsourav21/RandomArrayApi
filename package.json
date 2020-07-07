@@ -5,7 +5,7 @@
     "license": "MIT",
     "scripts": {
         "start": "node ./server.js",
-        "start_dev": "nodemon ./server.js"
+        "dev": "nodemon ./server.js"
     },
     "dependencies": {
         "@hapi/joi": "^17.1.1",

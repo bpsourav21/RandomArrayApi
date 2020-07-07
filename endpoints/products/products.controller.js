@@ -38,6 +38,8 @@ function createOrUpdateSchema(req, res, next) {
     unit: Joi.string(),
     tags: Joi.array(),
     type: Joi.string(),
+    img: Joi.string(),
+    carouselImg: Joi.array(),
   });
   validateRequest(req, next, schema);
 }

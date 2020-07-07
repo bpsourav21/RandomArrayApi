@@ -8,6 +8,8 @@ const schema = new Schema({
   categoryId: { type: Number, default: 0 },
   price: { type: Number, default: 0 },
   unit: { type: String },
+  img: { type: String },
+  carouselImg: { type: [String] },
   discount: { type: Number, default: 0 },
   tags: { type: [String] },
   type: { type: String },

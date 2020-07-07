@@ -10,6 +10,7 @@ const errorHandler = require("middleware/error-handler");
 const authController = require("endpoints/auth/auth.controller");
 const accountsController = require("endpoints/accounts/accounts.controller");
 const productsController = require("endpoints/products/products.controller");
+const ordersController = require("endpoints/orders/orders.controller");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -27,6 +28,7 @@ app.use(
 app.use("/auth", authController);
 app.use("/accounts", accountsController);
 app.use("/products", productsController);
+app.use("/orders", ordersController);
 
 // swagger docs route
 app.use("/api-docs", require("helpers/swagger"));

@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const AccountModel = require("endpoints/accounts/account.model");
 const RefreshTokenModel = require("endpoints/accounts/refresh-token.model");
 const ProductModel = require("endpoints/products/product.model");
+const OrderModel = require("endpoints/orders/order.model");
 
 const connectionOptions = {
   useCreateIndex: true,
@@ -25,6 +26,7 @@ mongoose.Promise = global.Promise;
 module.exports = {
   Account: AccountModel,
   Product: ProductModel,
+  Order: OrderModel,
   RefreshToken: RefreshTokenModel,
   isValidId,
 };
